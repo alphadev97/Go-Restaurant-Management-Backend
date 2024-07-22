@@ -1,7 +1,7 @@
 package routes
 
 import (
-	controller "github.com/alphadev97/go-retaurant-management-backend/controllers"
+	controller "github.com/alphadev97/go-restaurant-management-backend/controllers"
 	"github.com/gin-gonic/gin"
 )
 

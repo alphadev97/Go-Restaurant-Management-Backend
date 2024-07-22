@@ -1,4 +1,4 @@
-module github.com/alphadev97/go-retaurant-management-backend
+module github.com/alphadev97/go-restaurant-management-backend
 
 go 1.22.3
 
