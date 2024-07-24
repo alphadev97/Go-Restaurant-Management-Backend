@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/alphadev97/go-restaurant-management-backend/database"
+	"github.com/alphadev97/go-restaurant-management-backend/models"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -36,7 +37,19 @@ func GetTables() gin.HandlerFunc {
 
 func GetTable() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+		defer cancel()
 
+		tableId := c.Param("table_id")
+		var table models.Table
+
+		err := tableCollection.FindOne(ctx, bson.M{"table_id": tableId}).Decode(&table)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "error occured while fecthing the table"})
+			return
+		}
+
+		c.JSON(http.StatusOK, table)
 	}
 }
 
