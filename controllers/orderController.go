@@ -53,6 +53,7 @@ func GetOrder() gin.HandlerFunc {
 func CreateOrder() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+		defer cancel()
 
 		var table models.Table
 		var order models.Order
@@ -91,7 +92,6 @@ func CreateOrder() gin.HandlerFunc {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": msg})
 			return
 		}
-		defer cancel()
 
 		c.JSON(http.StatusOK, result)
 	}
@@ -100,6 +100,7 @@ func CreateOrder() gin.HandlerFunc {
 func UpdateOrder() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+		defer cancel()
 		var order models.Order
 
 		var updateObj primitive.D
@@ -136,7 +137,6 @@ func UpdateOrder() gin.HandlerFunc {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": msg})
 			return
 		}
-		defer cancel()
 
 		c.JSON(http.StatusOK, result)
 	}

@@ -85,6 +85,7 @@ func GetInvoice() gin.HandlerFunc {
 func CreateInvoice() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+		defer cancel()
 		var invoice models.Invoice
 
 		if err := c.BindJSON(&invoice); err != nil {
@@ -126,8 +127,6 @@ func CreateInvoice() gin.HandlerFunc {
 			return
 		}
 
-		defer cancel()
-
 		c.JSON(http.StatusOK, result)
 
 	}
@@ -136,6 +135,7 @@ func CreateInvoice() gin.HandlerFunc {
 func UpdateInvoice() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+		defer cancel()
 
 		var invoice models.Invoice
 		invoiceId := c.Param("invoice_id")
@@ -178,7 +178,6 @@ func UpdateInvoice() gin.HandlerFunc {
 			c.JSON(http.StatusInternalServerError, gin.H{"errro": msg})
 			return
 		}
-		defer cancel()
 
 		c.JSON(http.StatusOK, result)
 

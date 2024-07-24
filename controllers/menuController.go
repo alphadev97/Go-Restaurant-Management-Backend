@@ -97,6 +97,7 @@ func inTimeSpan(start, end, check time.Time) bool {
 func UpdateMenu() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+		defer cancel()
 		var menu models.Menu
 
 		if err := c.BindJSON(&menu); err != nil {
@@ -142,7 +143,7 @@ func UpdateMenu() gin.HandlerFunc {
 				msg := "Menu update failed"
 				c.JSON(http.StatusInternalServerError, gin.H{"error": msg})
 			}
-			defer cancel()
+
 			c.JSON(http.StatusOK, result)
 		}
 	}
