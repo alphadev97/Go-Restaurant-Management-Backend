@@ -134,8 +134,6 @@ func UpdateTable() gin.HandlerFunc {
 			return
 		}
 
-		defer cancel()
-
 		c.JSON(http.StatusOK, result)
 	}
 }
